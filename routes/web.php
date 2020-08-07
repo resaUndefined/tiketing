@@ -17,6 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+#Route::get('/login', 'LoginController@show')->name('login')->middleware('guest');
+#Route::get('/register', 'RegistrationController@show')
+ #   ->name('register')
+  #  ->middleware('guest');
 
+
+// Register & Login User
+#Route::post('/login', 'LoginController@authenticate');
+#Route::post('/register', 'RegistrationController@register');
+Route::get('admin/home', 'HomeController@adminHome')->name('admin.home')->middleware('is_admin');
+Route::get('vendor/home', 'HomeController@vendorHome')->name('vendor.home')->middleware('is_vendor');
+Route::get('user/home', 'HomeController@userHome')->name('user.home')->middleware('is_user');
 Route::get('/home', 'HomeController@index')->name('home');
