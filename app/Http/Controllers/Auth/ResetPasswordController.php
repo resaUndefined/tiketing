@@ -34,7 +34,7 @@ class ResetPasswordController extends Controller
             'token' => 'required|string',
             'password' => 'required|string|min:6|confirmed'
         ]);
-        // dd(Hash::make($request->token));
+        
         $resetPassword = Password::where([
             'email' => $request->email
         ])->first();
@@ -68,14 +68,7 @@ class ResetPasswordController extends Controller
 
         return response()->json(["msg" => "Password has been successfully changed"]);
     }
-    // protected function validator(array $data)
-    // {
-    //     return Validator::make($data, [
-    //         'email' => ['required','email'],
-    //         'token' => ['required', 'string'],
-    //         'password' => ['required', 'string', 'min:6', 'confirmed']
-    //     ]);
-    // }
+    
 
     /**
      * Where to redirect users after resetting their password.
