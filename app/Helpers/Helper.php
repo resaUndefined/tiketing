@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Model\Role;
 use Illuminate\Support\Facades\Hash;
-
+use Carbon\Carbon;
 
 class Helper {
 
@@ -18,7 +18,7 @@ class Helper {
 
     public static function get_all_user()
     {
-        $users = User::all()->paginate();
+        $users = User::paginate();
 
         return $users;
     }
@@ -57,5 +57,10 @@ class Helper {
         ])->first();
 
         return $user;
+    }
+
+    public static function timestamp_sekarang()
+    {
+        return Carbon::now()->timestamp;
     }
 }

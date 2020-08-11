@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         'is_admin' => \App\Http\Middleware\IsAdminMiddleware::class,
         'is_vendor' => \App\Http\Middleware\IsVendorMiddleware::class,
         'is_user' => \App\Http\Middleware\IsUserMiddleware::class,
-        'jwt.auth' => \App\Http\Middleware\JwtMiddleware::class,
+        'jwt.auth.custom' => \App\Http\Middleware\JwtMiddleware::class,
     ];
 }

@@ -10,6 +10,7 @@ use App\User;
 use App\Helpers\Helper;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use JWTAuth;
 
 class JWTAuthController extends ApiController
 {
@@ -34,7 +35,7 @@ class JWTAuthController extends ApiController
             'name' => 'required|between:2,100',
             'email' => 'required|email|unique:users|max:50',
             'password' => 'required|confirmed|string|min:6',
-            'role' => 'required|integer'
+            'role' => 'required|integer|exists:roles,id'
         ]);
         
         if ($validator->fails()) {
@@ -112,11 +113,13 @@ class JWTAuthController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
         auth()->logout();
+        $data = null;
+        $message = 'Anda berhasil logout';
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->successResponse($data, $message, 200);
     }
 
     /**

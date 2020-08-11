@@ -24,13 +24,16 @@ Route::group([
 ], function ($router) {
     Route::post('register', 'apk\JWTAuthController@register');
     Route::post('login', 'apk\JWTAuthController@login');
-    Route::post('logout', 'apk\JWTAuthController@logout');
     Route::post('refresh', 'apk\JWTAuthController@refresh');
     Route::get('profile', 'apk\JWTAuthController@profile');
 });
 
-Route::group(['middleware' => 'jwt.auth'], function () {
+Route::get('logout', 'apk\JWTAuthController@logout')->middleware(['api', 'jwt.auth']);
+
+Route::group(['middleware' => ['api', 'jwt.auth.custom']], function () {
     // Route::get('logout', 'ApiController@logout');
+
+    // roles
     Route::prefix('roles')->group(function () {
         Route::get('', 'apk\RoleController@get_all_role');
         Route::post('', 'apk\RoleController@add_role');
@@ -38,10 +41,16 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::put('{id}', 'apk\RoleController@update_role');
         Route::delete('{id}', 'apk\RoleController@delete_role');
     });
-    // Route::get('products', 'ProductController@index');
-    // Route::get('products/{id}', 'ProductController@show');
-    // Route::post('products', 'ProductController@store');
-    // Route::put('products/{id}', 'ProductController@update');
-    // Route::delete('products/{id}', 'ProductController@destroy');
+
+    // users
+    Route::prefix('users')->group(function () {
+        Route::get('', 'apk\UserController@get_all_user');
+        Route::post('', 'apk\UserController@add_user');
+        Route::get('{id}', 'apk\UserController@get_user');
+        Route::put('{id}', 'apk\UserController@update_user');
+        Route::delete('{id}', 'apk\UserController@delete_user');
+        Route::put('change-password/{id}', 'apk\UserController@change_password');
+        Route::post('change-status/{id}', 'apk\UserController@change_status');
+    });
 });
 
