@@ -26,6 +26,9 @@ Route::group([
     Route::post('login', 'apk\JWTAuthController@login');
     Route::post('refresh', 'apk\JWTAuthController@refresh');
     Route::get('profile', 'apk\JWTAuthController@profile');
+    Route::post('waybil', 'apk\RoleController@waybil');
+    Route::get('cek', 'apk\RoleController@dapat');
+    Route::post('ongkir', 'apk\RoleController@ongkir');
 });
 
 Route::get('logout', 'apk\JWTAuthController@logout')->middleware(['api', 'jwt.auth']);

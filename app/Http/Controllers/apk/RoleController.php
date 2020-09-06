@@ -108,4 +108,107 @@ class RoleController extends ApiController
         }
         
     }
+
+    public function waybil(Request $request)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "waybill=".$request->resi."&courier=jnt",
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                "key: e079daba710176abe3c4e8edf375cb8e"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+        $manifest = [];
+        if ($err) {
+        return "cURL Error #:" . $err;
+        } else {
+        $response2 = json_decode($response,true);
+        $manifest = $response2["rajaongkir"]["result"]["manifest"];
+        return $response2;
+        $panjang = count($manifest) - 1;
+        for ($i=$panjang; $i>=0 ; $i--) { 
+            return $manifest[$i]["manifest_description"];
+        }
+        // return $response2["rajaongkir"]["result"]["manifest"];
+        }
+    }
+
+
+    public function dapat()
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        // CURLOPT_URL => "https://pro.rajaongkir.com/api/city?id&province=5", //untuk get all city by provinsi
+        // CURLOPT_URL => "https://pro.rajaongkir.com/api/province?id", //untuk get all provinsi
+        CURLOPT_URL => "https://pro.rajaongkir.com/api/subdistrict?city=419", //untuk get kecamatan
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "key: e079daba710176abe3c4e8edf375cb8e"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return "cURL Error #:" . $err;
+        } else {
+            $response2 =  json_decode($response,true);
+            // return $response2["rajaongkir"]["results"];
+            return $response2;
+        }
+    }
+    public function ongkir(Request $request)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://pro.rajaongkir.com/api/cost",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "origin=501&originType=city&destination=574&destinationType=subdistrict&weight=1700&courier=jne",
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded",
+            "key: e079daba710176abe3c4e8edf375cb8e"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return "cURL Error #:" . $err;
+        } else {
+            $response2 =  json_decode($response,true);
+            return $response2;
+        }
+    }
 }
