@@ -4,14 +4,14 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Password extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'password_resets';
 
     /**
      * The attributes that are mass assignable.
@@ -19,11 +19,8 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-        'level', 'role',
+        'email', 'token', 'created_at'
     ];
 
-    public function users()
-    {
-        return $this->hasMany('App\User');
-    }
+    protected $primaryKey = 'email';
 }
